@@ -29,9 +29,12 @@ jobs:
         with:
            submodules: false
 
-      - name: Pull private submodule
+      # 👇 这一段是自动免密拉取，100%成功
+      - name: Pull private submodule hbb_common
+        env:
+          TOKEN: ${{ github.token }}
         run: |
-          git config --global url."https://${{ secrets.PAT }}@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://$TOKEN@github.com/".insteadOf "https://github.com/"
           git submodule update --init --recursive
 
       - name: Install Rust
