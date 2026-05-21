@@ -27,8 +27,13 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+           submodules: false
 
+      - name: Pull private submodule
+        run: |
+          git config --global url."https://${{ secrets.PAT }}@github.com/".insteadOf "https://github.com/"
+          git submodule update --init --recursive
+    
       - name: Install prerequisites
         run: |
           sudo apt-get install ca-certificates -y
